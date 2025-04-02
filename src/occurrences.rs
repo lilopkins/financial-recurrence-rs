@@ -8,8 +8,6 @@ use crate::{DayFilter, Frequency, RecurrenceRule, ResolveDirection};
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[getset(get = "pub")]
 pub struct Occurrence {
-    /// What index is this occurrence?
-    index: u64,
     /// When is this specific occurrence at?
     at: NaiveDate,
 }
@@ -117,10 +115,7 @@ impl Iterator for Iter<'_> {
             }
         }
 
-        let occ = Occurrence {
-            index: self.index,
-            at: next_date,
-        };
+        let occ = Occurrence { at: next_date };
         self.index += 1;
         self.currently_at = next_date;
         Some(occ)
@@ -162,21 +157,18 @@ mod tests {
         assert_eq!(
             iter.next(),
             Some(Occurrence {
-                index: 0,
                 at: NaiveDate::from_ymd_opt(2025, 4, 1).unwrap(),
             })
         );
         assert_eq!(
             iter.next(),
             Some(Occurrence {
-                index: 1,
                 at: NaiveDate::from_ymd_opt(2026, 4, 1).unwrap(),
             })
         );
         assert_eq!(
             iter.next(),
             Some(Occurrence {
-                index: 2,
                 at: NaiveDate::from_ymd_opt(2027, 4, 1).unwrap(),
             })
         );
@@ -184,7 +176,6 @@ mod tests {
         assert_eq!(
             iter.next(),
             Some(Occurrence {
-                index: 3,
                 at: NaiveDate::from_ymd_opt(2028, 4, 3).unwrap(),
             })
         );
@@ -209,7 +200,6 @@ mod tests {
         assert_eq!(
             iter.next(),
             Some(Occurrence {
-                index: 0,
                 at: NaiveDate::from_ymd_opt(2025, 1, 1).unwrap(),
             })
         );
@@ -217,7 +207,6 @@ mod tests {
         assert_eq!(
             iter.next(),
             Some(Occurrence {
-                index: 1,
                 at: NaiveDate::from_ymd_opt(2025, 2, 3).unwrap(),
             })
         );
@@ -225,14 +214,12 @@ mod tests {
         assert_eq!(
             iter.next(),
             Some(Occurrence {
-                index: 2,
                 at: NaiveDate::from_ymd_opt(2025, 3, 3).unwrap(),
             })
         );
         assert_eq!(
             iter.next(),
             Some(Occurrence {
-                index: 3,
                 at: NaiveDate::from_ymd_opt(2025, 4, 1).unwrap(),
             })
         );
@@ -259,28 +246,24 @@ mod tests {
         assert_eq!(
             iter.next(),
             Some(Occurrence {
-                index: 0,
                 at: NaiveDate::from_ymd_opt(2025, 1, 4).unwrap(),
             })
         );
         assert_eq!(
             iter.next(),
             Some(Occurrence {
-                index: 1,
                 at: NaiveDate::from_ymd_opt(2025, 1, 5).unwrap(),
             })
         );
         assert_eq!(
             iter.next(),
             Some(Occurrence {
-                index: 2,
                 at: NaiveDate::from_ymd_opt(2025, 1, 11).unwrap(),
             })
         );
         assert_eq!(
             iter.next(),
             Some(Occurrence {
-                index: 3,
                 at: NaiveDate::from_ymd_opt(2025, 1, 12).unwrap(),
             })
         );

@@ -5,12 +5,12 @@
 #![doc = include_str!("../README.md")]
 
 /// Occurrences of this rule, and iterators to handle them.
-pub mod occurences;
+pub mod occurrences;
 
 use bitflags::bitflags;
 use chrono::NaiveDate;
 use getset::{Getters, Setters};
-use occurences::Iter;
+use occurrences::Iter;
 
 /// A recurrence rule
 #[derive(Getters, Setters, Clone, Debug)]
@@ -123,8 +123,8 @@ impl RecurrenceRule {
 }
 
 impl<'a> IntoIterator for &'a RecurrenceRule {
-    type Item = occurences::Occurrence;
-    type IntoIter = occurences::Iter<'a>;
+    type Item = occurrences::Occurrence;
+    type IntoIter = occurrences::Iter<'a>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.iter()
